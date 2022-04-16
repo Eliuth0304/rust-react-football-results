@@ -1,3 +1,4 @@
+use crate::cache::CacheError;
 use axum::response::IntoResponse;
 use color_eyre::Report;
 use hyper::StatusCode;
@@ -17,5 +18,11 @@ impl IntoResponse for ReportError {
 impl From<Report> for ReportError {
     fn from(err: Report) -> Self {
         ReportError(err)
+    }
+}
+
+impl From<CacheError> for ReportError {
+    fn from(err: CacheError) -> Self {
+        Self(err.into())
     }
 }

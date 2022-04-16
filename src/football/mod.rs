@@ -3,6 +3,9 @@ use reqwest::Client;
 
 const FOOTBALL_API: &str = "https://jwcooper.net/football";
 
+#[derive(Clone)]
+pub(crate) struct FootballResults(pub String);
+
 pub(crate) async fn fetch_results(client: &Client) -> Result<String, Report> {
     Ok(
         client
