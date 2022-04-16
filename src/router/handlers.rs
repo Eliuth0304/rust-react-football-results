@@ -1,11 +1,14 @@
-use crate::{cache::Cached, error::ReportError, football::FootballResults};
+use crate::{
+    cache::Cached,
+    error::ReportError,
+    football::{self, FootballResults},
+};
 use axum::{extract::Extension, response::IntoResponse, Json};
 use color_eyre::Report;
 use hyper::{Body, Response};
 use reqwest::Client;
 use serde::Serialize;
 
-#[tracing::instrument(skip_all)]
 pub(crate) async fn get_football_data(
     client: Extension<Client>,
     cached: Extension<Cached<FootballResults>>,
@@ -18,7 +21,7 @@ pub(crate) async fn get_football_data(
     let FootballResults(football_results) = cached
         .get_cached(|| {
             Box::pin(async move {
-                let results = crate::football::fetch_results(&client).await?;
+                let results = football::fetch_results(&client).await?;
                 Ok::<_, Report>(FootballResults(results))
             })
         })
