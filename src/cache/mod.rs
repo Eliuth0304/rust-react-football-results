@@ -9,7 +9,7 @@ use parking_lot::Mutex;
 use std::{
     future::Future,
     pin::Pin,
-    sync::Arc,
+    sync::{Arc, Weak},
     time::{Duration, Instant},
 };
 use tokio::sync::broadcast;
@@ -47,12 +47,13 @@ where
                 }
             }
 
-            if let Some(inflight) = inner.inflight.as_ref() {
+            if let Some(inflight) = inner.inflight.as_ref().and_then(Weak::upgrade) {
                 inflight.subscribe()
             } else {
                 let (tx, rx) = broadcast::channel::<Result<T, CacheError>>(1);
+                let tx = Arc::new(tx);
 
-                inner.inflight = Some(tx.clone());
+                inner.inflight = Some(Arc::downgrade(&tx));
 
                 let inner = self.inner.clone();
 
