@@ -5,12 +5,13 @@ pub(crate) use error::CacheError;
 
 use color_eyre::eyre::eyre;
 use inner::CachedInner;
-use std::future::Future;
-use std::pin::Pin;
-use std::sync::Arc;
-use std::sync::Mutex;
-use std::time::Duration;
-use std::time::Instant;
+use parking_lot::Mutex;
+use std::{
+    future::Future,
+    pin::Pin,
+    sync::Arc,
+    time::{Duration, Instant},
+};
 use tokio::sync::broadcast;
 
 pub(crate) type BoxFut<'a, O> = Pin<Box<dyn Future<Output = O> + Send + 'a>>;
@@ -38,7 +39,7 @@ where
         E: std::fmt::Display + 'static,
     {
         let mut rx = {
-            let mut inner = self.inner.lock().unwrap();
+            let mut inner = self.inner.lock();
 
             if let Some((fetched_at, value)) = inner.last_fetched.as_ref() {
                 if fetched_at.elapsed() < self.refresh_interval {
@@ -60,7 +61,7 @@ where
                 tokio::spawn(async move {
                     let result = fut.await;
 
-                    let mut inner = inner.lock().unwrap();
+                    let mut inner = inner.lock();
                     inner.inflight = None;
 
                     let _ = match result {
