@@ -17,7 +17,10 @@ use tokio::sync::broadcast;
 pub(crate) type BoxFut<'a, O> = Pin<Box<dyn Future<Output = O> + Send + 'a>>;
 
 #[derive(Clone, Debug, Default)]
-pub(crate) struct Cached<T> {
+pub(crate) struct Cached<T>
+where
+    T: Clone + Send + Sync + 'static,
+{
     inner: Arc<Mutex<CachedInner<T>>>,
     refresh_interval: Duration,
 }
