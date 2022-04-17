@@ -20,7 +20,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 }
 
 async fn run_server() -> Result<(), Box<dyn Error>> {
-    let addr: SocketAddr = "0.0.0.0:3779".parse()?;
+    let addr: SocketAddr = "0.0.0.0:8000".parse()?;
     tracing::info!("Listening on http://{}", addr);
 
     let app = router::create();
