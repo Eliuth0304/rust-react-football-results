@@ -3,7 +3,7 @@ use std::fmt::Display;
 use tokio::sync::broadcast::error::RecvError;
 
 #[derive(Clone, Debug, thiserror::Error)]
-#[error("String representation of error: {0}")]
+#[error("{0}")]
 pub(crate) struct CacheError(String);
 
 impl CacheError {
