@@ -1,7 +1,7 @@
 mod error;
 mod inner;
 
-pub(crate) use error::CacheError;
+pub(crate) use error::*;
 
 use color_eyre::eyre::eyre;
 use inner::CachedInner;
@@ -10,7 +10,6 @@ use std::{
     future::Future,
     pin::Pin,
     sync::{Arc, Weak},
-    time::{Duration, Instant},
 };
 use tokio::sync::broadcast;
 
@@ -22,17 +21,15 @@ where
     T: Clone + Send + Sync + 'static,
 {
     inner: Arc<Mutex<CachedInner<T>>>,
-    refresh_interval: Duration,
 }
 
 impl<T> Cached<T>
 where
     T: Clone + Send + Sync + 'static,
 {
-    pub fn new(refresh_interval: Duration) -> Self {
+    pub fn new() -> Self {
         Self {
             inner: Default::default(),
-            refresh_interval,
         }
     }
 
@@ -44,9 +41,16 @@ where
         let mut rx = {
             let mut inner = self.inner.lock();
 
-            if let Some((fetched_at, value)) = inner.last_fetched.as_ref() {
-                if fetched_at.elapsed() < self.refresh_interval {
-                    return Ok(value.clone());
+            match inner.get_value() {
+                Ok(value) => {
+                    tracing::info!("Found a cached value!");
+                    return Ok(value);
+                }
+                Err(MissedCacheError::Stale) => {
+                    tracing::info!("Found a cached value, but it was stale.");
+                }
+                Err(MissedCacheError::Missing) => {
+                    tracing::info!("No cached value found.");
                 }
             }
 
@@ -54,6 +58,7 @@ where
                 inflight.subscribe()
             } else {
                 let (tx, rx) = broadcast::channel::<Result<T, CacheError>>(1);
+
                 let tx = Arc::new(tx);
 
                 inner.inflight = Some(Arc::downgrade(&tx));
@@ -70,7 +75,12 @@ where
 
                     let _ = match result {
                         Ok(result) => {
-                            inner.last_fetched.replace((Instant::now(), result.clone()));
+                            let now = chrono::offset::Utc::now().time();
+
+                            // Allow a small window of time after the hour for the backing API to update
+                            let buffer = chrono::Duration::seconds(2);
+
+                            inner.last_fetched.replace((now - buffer, result.clone()));
 
                             tx.send(Ok(result))
                         }
@@ -83,10 +93,10 @@ where
         };
 
         // If we haven't already returned by here, we're waiting for an in-flight request
+        // that was launched by a prior call to this function.
 
-        Ok(rx
-            .recv()
+        rx.recv()
             .await
-            .map_err(|_| eyre!("In-flight request died"))??)
+            .map_err(|_| eyre!("In-flight request died"))?
     }
 }

@@ -21,7 +21,10 @@ pub(crate) async fn get_football_data(
     let FootballResults(football_results) = cached
         .get_cached(|| {
             Box::pin(async move {
+                tracing::info!("Sending an outgoing request!");
+
                 let results = football::fetch_results(&client).await?;
+
                 Ok::<_, Report>(FootballResults(results))
             })
         })

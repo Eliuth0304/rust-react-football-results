@@ -23,3 +23,10 @@ impl From<RecvError> for CacheError {
         Self::new(err)
     }
 }
+
+#[derive(Clone, Debug, thiserror::Error)]
+#[error("Attempted to get value from cache, but result was stale.")]
+pub(super) enum MissedCacheError {
+    Missing,
+    Stale,
+}

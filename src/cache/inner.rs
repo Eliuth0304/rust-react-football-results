@@ -1,17 +1,42 @@
-use super::CacheError;
+use super::{CacheError, MissedCacheError};
+use chrono::{NaiveTime, Timelike};
 use std::sync::Weak;
-use std::time::Instant;
 use tokio::sync::broadcast::Sender;
 
 #[derive(Debug)]
-pub(super) struct CachedInner<T> {
-    pub last_fetched: Option<(Instant, T)>,
+pub(super) struct CachedInner<T>
+where
+    T: Clone + Send + Sync + 'static,
+{
+    pub last_fetched: Option<(NaiveTime, T)>,
     pub inflight: Option<Weak<Sender<Result<T, CacheError>>>>,
+}
+
+impl<T> CachedInner<T>
+where
+    T: Clone + Send + Sync + 'static,
+{
+    pub fn get_value(&self) -> Result<T, MissedCacheError> {
+        let now = chrono::offset::Utc::now().time();
+
+        if let Some((fetched_at, value)) = self.last_fetched.as_ref() {
+            if fetched_at.hour() == now.hour() {
+                Ok(value.clone())
+            } else {
+                Err(MissedCacheError::Stale)
+            }
+        } else {
+            Err(MissedCacheError::Missing)
+        }
+    }
 }
 
 // Manual impl necessary, else the parent struct thinks
 // T: Default is a requirement, even though Option::default is None
-impl<T> Default for CachedInner<T> {
+impl<T> Default for CachedInner<T>
+where
+    T: Clone + Send + Sync + 'static,
+{
     fn default() -> Self {
         Self {
             last_fetched: None,
