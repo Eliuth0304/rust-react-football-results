@@ -1,0 +1,10 @@
+[package]
+name = "mock_football_api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.4.8", features = ["json"] }
+serde_json = "1.0.79"
+tokio = { version = "1.17", features = ["full"] }
+

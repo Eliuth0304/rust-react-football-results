@@ -372,7 +372,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
 
 [[package]]
-name = "football-api"
+name = "football_api"
 version = "0.1.0"
 dependencies = [
  "axum",
@@ -836,6 +836,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b9f1c5b025cda876f66ef43a113f91ebc9f4ccef34843000e0adf6ebbab84e21"
 dependencies = [
  "winapi",
+]
+
+[[package]]
+name = "mock_football_api"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "serde_json",
+ "tokio",
 ]
 
 [[package]]
