@@ -1,8 +1,8 @@
 FROM rust:1.60 as builder
 
-RUN USER=root cargo new football-api
+RUN USER=root cargo new football_api
 
-WORKDIR football-api
+WORKDIR football_api
 
 COPY Cargo.toml Cargo.toml
 
@@ -34,7 +34,7 @@ RUN groupadd $APP_USER \
     && useradd -g $APP_USER $APP_USER \
     && mkdir -p ${APP}
 
-COPY --from=builder /football-api/target/release/football-api ${APP}/football-api
+COPY --from=builder /football_api/target/release/football_api ${APP}/football_api
 
 RUN chown -R $APP_USER:$APP_USER ${APP}
 
@@ -42,4 +42,4 @@ USER $APP_USER
 
 WORKDIR ${APP}
 
-CMD ["./football-api"]
+CMD ["./football_api"]
