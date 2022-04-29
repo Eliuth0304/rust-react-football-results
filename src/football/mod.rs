@@ -1,7 +1,7 @@
 use axum::http::HeaderValue;
 use color_eyre::Report;
 use hyper::HeaderMap;
-use reqwest::Client;
+use reqwest::{Client, Url};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::env;
@@ -14,10 +14,14 @@ const BASE_URL: &str = "https://v3.football.api-sports.io/standings";
 pub(crate) async fn fetch_results(client: &Client) -> Result<FootballResults, Report> {
     let in_production = env::var("ENVIRONMENT").as_deref() == Ok("production");
 
-    let upstream_api_url = if in_production {
-        BASE_URL
+    let upstream_api_url: Url = if in_production {
+        let mut url: Url = BASE_URL.parse()?;
+
+        url.query_pairs_mut().append_pair("league", "39");
+
+        url
     } else {
-        "http://127.0.0.1:8001"
+        "http://127.0.0.1:8001".parse()?
     };
 
     let mut headers = HeaderMap::new();
