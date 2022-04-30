@@ -381,6 +381,7 @@ dependencies = [
  "console-subscriber",
  "hyper",
  "hyper-tls",
+ "lazy_static",
  "opentelemetry",
  "opentelemetry-jaeger",
  "parking_lot",
