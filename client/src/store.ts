@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./features/football/footballSlice";
+import { footballResultsApi } from "./services/football";
 
 const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    [footballResultsApi.reducerPath]: footballResultsApi.reducer,
   },
 });
 

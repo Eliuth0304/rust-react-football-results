@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./store";
-import { increment } from "./features/football/footballSlice";
+import { useGetFootballResultsQuery } from "./services/football";
 
 function App() {
-  const count = useSelector((state: RootState) => state.counter.value);
+  const [count, setCount] = useState(0);
 
-  const dispatch = useDispatch();
+  const { data, error, isLoading } = useGetFootballResultsQuery();
 
   return (
     <div className="flex flex-col items-center">
@@ -16,10 +14,11 @@ function App() {
       <button
         className="mt-4 w-32 px-4 py-2 rounded bg-blue-400 hover:bg-blue-300 transition-colors"
         type="button"
-        onClick={() => dispatch(increment())}
+        onClick={() => setCount((count) => count + 1)}
       >
         Count is: {count}
       </button>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
 }
