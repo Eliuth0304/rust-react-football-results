@@ -5,6 +5,8 @@ const store = configureStore({
   reducer: {
     [footballResultsApi.reducerPath]: footballResultsApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(footballResultsApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
