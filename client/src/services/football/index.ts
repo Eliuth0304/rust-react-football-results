@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-export interface FootballResults {}
+import { FootballResults } from "./types";
+import { FootballResultsResponseRaw } from "./types/raw";
 
 const baseUrl = import.meta.env.PROD
   ? "https://football-jack.koyeb.app/"
@@ -12,6 +12,15 @@ export const footballResultsApi = createApi({
   endpoints: (builder) => ({
     getFootballResults: builder.query<FootballResults, void>({
       query: () => "football",
+      transformResponse: (
+        response: FootballResultsResponseRaw
+      ): FootballResults => {
+        let {
+          response: [{ league }],
+        } = response;
+
+        return { ...league, standings: league.standings[0] };
+      },
     }),
   }),
 });

@@ -18,7 +18,7 @@ function App() {
       >
         Count is: {count}
       </button>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {data !== undefined && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
   );
 }
