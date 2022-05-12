@@ -7,8 +7,9 @@ type Props = {
 const Standings = ({ standings }: Props) => (
   <>
     {standings.map((standing) => (
-      <div key={standing.team.id} className="flex px-4 py-2">
-        {standing.team.name}
+      <div key={standing.team.id} className="flex px-4 py-2 items-center">
+        <img className="h-8" src={standing.team.logo} />
+        <p className="ml-2">{standing.team.name}</p>
       </div>
     ))}
   </>
