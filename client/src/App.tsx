@@ -1,9 +1,9 @@
-import FootballResults from "./features/football/FootballResults";
+import FootballResults from "./features/football/FootballResults/FootballResults";
 
 function App() {
   return (
-    <div className="px-32 flex flex-col items-center bg-gradient-to-br from-cyan-100 to-blue-100 font-extralight">
-      <h1 className="text-4xl font-thin mt-8 text-center">Football Results</h1>
+    <div className="flex flex-col items-center px-2 py-8 font-extralight bg-gradient-to-tr from-emerald-500 to-lime-100 md:px-32">
+      <h1 className="text-4xl font-thin text-center">Football Results</h1>
       <FootballResults />
     </div>
   );
