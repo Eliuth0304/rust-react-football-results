@@ -4,7 +4,7 @@ type Props = {
 };
 
 const LeagueInfo = ({ logoUrl, name }: Props) => (
-  <div className="flex justify-center items-center p-4 border-r border-current grow">
+  <div className="flex justify-center items-center p-4 border-r border-white grow">
     <img className="h-8" src={logoUrl} />
     <p className="ml-4 text-2xl">{name}</p>
   </div>

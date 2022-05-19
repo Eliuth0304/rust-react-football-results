@@ -1,32 +1,33 @@
-import { Fragment } from "react";
 import { Standing } from "../../../services/football/types/raw";
 import StandingsHeader from "./StandingsHeader";
+import "./Standings.css";
 
 type Props = {
   standings: Array<Standing>;
 };
 
 const Standings = ({ standings }: Props) => (
-  <>
+  <div>
     <StandingsHeader />
-    <table className="w-full">
-      <thead className="text-left uppercase">
-        <tr></tr>
-        <th>#</th>
-        <th>Team</th>
-        <th>MP</th>
-        <th>W</th>
-        <th>D</th>
-        <th>L</th>
-        <th>G</th>
-        <th>Pts</th>
-        <th>Form</th>
+    <table className="overflow-scroll min-w-full text-sm text-center">
+      <thead className="uppercase bg-gray-200">
+        <tr>
+          <th>#</th>
+          <th>Team</th>
+          <th>MP</th>
+          <th>W</th>
+          <th>D</th>
+          <th>L</th>
+          <th>G</th>
+          <th>Pts</th>
+          <th>Form</th>
+        </tr>
       </thead>
-      <tbody>
+      <tbody className="divide-y">
         {standings.map((standing) => (
-          <tr key={standing.team.id}>
+          <tr key={standing.team.id} className="standing-row">
             <td>{standing.rank}.</td>
-            <td className="flex">
+            <td className="flex items-center">
               <img className="h-8" src={standing.team.logo} />
               <p className="ml-2">{standing.team.name}</p>
             </td>
@@ -46,7 +47,7 @@ const Standings = ({ standings }: Props) => (
         ))}
       </tbody>
     </table>
-  </>
+  </div>
 );
 
 export default Standings;

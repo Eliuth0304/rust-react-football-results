@@ -23,7 +23,7 @@ const FootballResults = () => {
 
   return (
     <>
-      <div className="mt-4 w-full rounded border border-gray-700 bg-white/10">
+      <div className="mt-4 w-full rounded">
         <FootballResultsHeader results={results} />
         <Standings standings={standings} />
       </div>
