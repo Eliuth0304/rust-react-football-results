@@ -10,7 +10,7 @@ type Props = {
 const Standings = ({ standings }: Props) => (
   <div>
     <StandingsHeader />
-    <table className="overflow-scroll min-w-full text-sm text-center">
+    <table className="min-w-full text-xs text-center table-fixed sm:text-sm">
       <thead className="uppercase bg-gray-200">
         <tr>
           <th>#</th>
@@ -28,9 +28,11 @@ const Standings = ({ standings }: Props) => (
         {standings.map((standing) => (
           <tr key={standing.team.id} className="standing-row">
             <td>{standing.rank}.</td>
-            <td className="flex items-center">
-              <img className="h-8" src={standing.team.logo} />
-              <p className="ml-2">{standing.team.name}</p>
+            <td className="flex items-center align-center min-w-[8rem]">
+              <img className="hidden h-8 sm:flex" src={standing.team.logo} />
+              <p className="ml-2 mt-0.5 sm:mt-0 whitespace-nowrap">
+                {standing.team.name}
+              </p>
             </td>
 
             <td>{standing.all.played}</td>
