@@ -1,6 +1,7 @@
 import { Standing } from "../../../services/football/types/raw";
 import StandingsHeader from "./StandingsHeader";
 import "./Standings.css";
+import Form from "./Form/Form";
 
 type Props = {
   standings: Array<Standing>;
@@ -42,7 +43,9 @@ const Standings = ({ standings }: Props) => (
 
             <td>{standing.points}</td>
 
-            <td>{standing.form}</td>
+            <td>
+              <Form form={standing.form} />
+            </td>
           </tr>
         ))}
       </tbody>
