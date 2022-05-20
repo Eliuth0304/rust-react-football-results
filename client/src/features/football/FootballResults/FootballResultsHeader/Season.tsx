@@ -4,7 +4,7 @@ type Props = {
 
 const Season = ({ year }: Props) => (
   <div className="flex col-span-2 items-center px-4">
-    <p className="font-bold">Season: {year}</p>
+    <p className="text-xl">Season: {year}</p>
   </div>
 );
 

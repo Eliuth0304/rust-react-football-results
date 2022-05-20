@@ -1,5 +1,5 @@
 import { Standing } from "../../../services/football/types/raw";
-import StandingsHeader from "./StandingsHeader";
+import StandingsHeader from "./StandingsHeader/StandingsHeader";
 import "./Standings.css";
 import Form from "./Form/Form";
 
