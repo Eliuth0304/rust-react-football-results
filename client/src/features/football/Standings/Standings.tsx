@@ -8,7 +8,7 @@ type Props = {
 };
 
 const Standings = ({ standings }: Props) => (
-  <div>
+  <div className="overflow-x-scroll">
     <StandingsHeader />
     <table className="min-w-full text-xs text-center table-fixed sm:text-sm">
       <thead className="uppercase bg-gray-200">
