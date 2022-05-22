@@ -4,7 +4,7 @@ type Props = {
   form: string;
 };
 
-const Form = ({ form }: Props) => (
+const RecentForm = ({ form }: Props) => (
   <div className="flex justify-center font-mono text-sm">
     {form.split("").map((result, index) => (
       <FormIndicator key={index} result={result} />
@@ -12,4 +12,4 @@ const Form = ({ form }: Props) => (
   </div>
 );
 
-export default Form;
+export default RecentForm;

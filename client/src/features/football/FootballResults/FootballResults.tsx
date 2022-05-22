@@ -25,7 +25,7 @@ const FootballResults = () => {
     <>
       <div className="mt-4 w-full rounded">
         <FootballResultsHeader results={results} />
-        <Standings standings={standings} />
+        <Standings />
       </div>
 
       <LastUpdated date={lastUpdatedDate} />
