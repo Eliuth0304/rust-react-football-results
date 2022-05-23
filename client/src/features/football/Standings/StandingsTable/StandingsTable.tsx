@@ -3,10 +3,12 @@ import StandingsTableHeader from "./StandingsTableHeader";
 
 const StandingsTable = () => {
   return (
-    <table className="min-w-full text-xs text-center table-fixed sm:text-sm">
-      <StandingsTableHeader />
-      <StandingsTableBody />
-    </table>
+    <div className="overflow-x-scroll">
+      <table className="min-w-full text-xs text-center table-fixed sm:text-sm">
+        <StandingsTableHeader />
+        <StandingsTableBody />
+      </table>
+    </div>
   );
 };
 
