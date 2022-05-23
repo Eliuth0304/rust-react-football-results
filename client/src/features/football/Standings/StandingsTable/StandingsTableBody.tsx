@@ -3,6 +3,8 @@ import { useGetFootballResultsQuery } from "../../../../services/football";
 import { StandingsFilter } from "../../standingsFilterSlice";
 import RecentForm from "../RecentForm/RecentForm";
 
+const calculatePoints = (wins: number, draws: number) => wins * 3 + draws;
+
 const StandingsTableBody = () => {
   const { data: { standings = [] } = {} } = useGetFootballResultsQuery();
 
@@ -20,6 +22,8 @@ const StandingsTableBody = () => {
         } else if (standingsFilter === StandingsFilter.Home) {
           matchInfo = standing.home;
         }
+
+        const points = calculatePoints(matchInfo.win, matchInfo.draw);
 
         return (
           <tr key={standing.team.id} className="standing-row">
@@ -39,7 +43,7 @@ const StandingsTableBody = () => {
               {matchInfo.goals.for}:{matchInfo.goals.against}
             </td>
 
-            <td>{standing.points}</td>
+            <td>{points}</td>
 
             <td>
               <RecentForm form={standing.form} />
