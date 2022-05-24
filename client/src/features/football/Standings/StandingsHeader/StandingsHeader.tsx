@@ -11,20 +11,12 @@ const StandingsHeader = () => {
   const changeTab = (standingsFilter: StandingsFilter) => {
     dispatch(setStandingsFilter(standingsFilter));
   };
+
   return (
     <div className="flex bg-gray-200 border-b border-white">
-      <MatchFilterTab
-        onClick={() => changeTab(StandingsFilter.Overall)}
-        text="Overall"
-      />
-      <MatchFilterTab
-        onClick={() => changeTab(StandingsFilter.Home)}
-        text="Home"
-      />
-      <MatchFilterTab
-        onClick={() => changeTab(StandingsFilter.Away)}
-        text="Away"
-      />
+      <MatchFilterTab onClick={() => changeTab("all")} text="Overall" />
+      <MatchFilterTab onClick={() => changeTab("home")} text="Home" />
+      <MatchFilterTab onClick={() => changeTab("away")} text="Away" />
     </div>
   );
 };

@@ -46,7 +46,7 @@ export interface Standing {
   update: string;
 }
 
-interface MatchInfo {
+export interface MatchInfo {
   draw: number;
   goals: Goals;
   lose: number;
