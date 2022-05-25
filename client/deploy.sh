@@ -7,6 +7,9 @@ yarn build
 
 cd dist
 
+git config --local user.email "action@github.com"
+git config --local user.name "GitHub Action"
+
 git init
 git checkout -b main
 git add -A
