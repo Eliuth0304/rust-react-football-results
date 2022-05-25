@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+cd client
+
+yarn
 yarn build
 
 cd dist
