@@ -3,6 +3,7 @@ import {
   MatchInfo,
   Standing as StandingType,
 } from "../../../../services/football/types";
+import { useAppSelector } from "../../../../reduxHooks";
 
 type Props = {
   matchInfo: MatchInfo;
@@ -12,6 +13,10 @@ type Props = {
 };
 
 const Standing = ({ matchInfo, points, rank, standing }: Props) => {
+  const standingsFilter = useAppSelector(
+    ({ standingsFilter }) => standingsFilter
+  );
+
   return (
     <tr key={standing.team.id} className="standing-row">
       <td>{rank}.</td>
@@ -32,9 +37,11 @@ const Standing = ({ matchInfo, points, rank, standing }: Props) => {
 
       <td>{points}</td>
 
-      <td>
-        <RecentForm form={standing.form} />
-      </td>
+      {standingsFilter === "all" && (
+        <td>
+          <RecentForm form={standing.form} />
+        </td>
+      )}
     </tr>
   );
 };
