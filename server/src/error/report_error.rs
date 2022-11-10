@@ -1,7 +1,8 @@
-use crate::cache::CacheError;
 use axum::response::IntoResponse;
 use color_eyre::Report;
 use hyper::StatusCode;
+
+use crate::cache::CacheError;
 
 pub(crate) struct ReportError(Report);
 

@@ -4,8 +4,9 @@ mod football;
 mod router;
 pub mod trace;
 
-use axum::Server;
 use std::{error::Error, net::SocketAddr};
+
+use axum::Server;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn Error>> {

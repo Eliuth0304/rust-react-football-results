@@ -1,12 +1,13 @@
+use axum::{extract::Extension, response::IntoResponse, Json};
+use color_eyre::Report;
+use hyper::{Body, Response};
+use reqwest::Client;
+
 use crate::{
     cache::Cached,
     error::ReportError,
     football::{self, FootballResults},
 };
-use axum::{extract::Extension, response::IntoResponse, Json};
-use color_eyre::Report;
-use hyper::{Body, Response};
-use reqwest::Client;
 
 #[tracing::instrument]
 pub(crate) async fn get_football_data(

@@ -1,9 +1,10 @@
 mod handlers;
 
-use crate::{cache::Cached, football::FootballResults};
 use axum::{extract::Extension, routing::get, Router};
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::trace::TraceLayer;
+
+use crate::{cache::Cached, football::FootballResults};
 
 pub(crate) fn create() -> Router {
     let cors_layer = CorsLayer::new().allow_methods(Any).allow_origin(Any);

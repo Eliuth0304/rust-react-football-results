@@ -1,3 +1,5 @@
+use std::env;
+
 use axum::http::HeaderValue;
 use chrono::{Datelike, Utc};
 use color_eyre::Report;
@@ -6,7 +8,6 @@ use lazy_static::lazy_static;
 use reqwest::{Client, Url};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use std::env;
 
 lazy_static! {
     static ref API_URL: Url = {

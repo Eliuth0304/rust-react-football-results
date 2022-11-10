@@ -3,14 +3,15 @@ mod inner;
 
 pub(crate) use error::*;
 
-use color_eyre::eyre::eyre;
-use inner::CachedInner;
-use parking_lot::Mutex;
 use std::{
     future::Future,
     pin::Pin,
     sync::{Arc, Weak},
 };
+
+use color_eyre::eyre::eyre;
+use inner::CachedInner;
+use parking_lot::Mutex;
 use tokio::sync::broadcast;
 
 pub(crate) type BoxFut<'a, O> = Pin<Box<dyn Future<Output = O> + Send + 'a>>;

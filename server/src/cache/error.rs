@@ -1,5 +1,6 @@
-use color_eyre::Report;
 use std::fmt::Display;
+
+use color_eyre::Report;
 use tokio::sync::broadcast::error::RecvError;
 
 #[derive(Clone, Debug, thiserror::Error)]
