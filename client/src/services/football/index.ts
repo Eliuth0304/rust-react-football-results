@@ -3,7 +3,7 @@ import { FootballResults } from "./types";
 import { FootballResultsResponseRaw } from "./types/raw";
 
 const baseUrl = import.meta.env.PROD
-  ? "https://football-jack.koyeb.app/api/"
+  ? "https://football-api.fly.dev/"
   : "http://localhost:8000";
 
 export const footballResultsApi = createApi({
