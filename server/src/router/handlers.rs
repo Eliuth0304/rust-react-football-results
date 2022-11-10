@@ -8,6 +8,7 @@ use color_eyre::Report;
 use hyper::{Body, Response};
 use reqwest::Client;
 
+#[tracing::instrument]
 pub(crate) async fn get_football_data(
     client: Extension<Client>,
     cached: Extension<Cached<FootballResults>>,
