@@ -1,11 +1,13 @@
 use std::error::Error;
+
 use tracing_error::ErrorLayer;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, EnvFilter, Registry};
 use tracing_tree::HierarchicalLayer;
 
 pub(crate) fn setup() -> Result<(), Box<dyn Error>> {
-    let tracer =
-        opentelemetry_jaeger::new_pipeline().install_batch(opentelemetry::runtime::Tokio)?;
+    let tracer = opentelemetry_jaeger::new_pipeline()
+        .with_service_name("Football API")
+        .install_batch(opentelemetry::runtime::Tokio)?;
 
     let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
 
