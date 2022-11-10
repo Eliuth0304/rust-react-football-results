@@ -15,17 +15,20 @@ use tokio::sync::broadcast;
 
 pub(crate) type BoxFut<'a, O> = Pin<Box<dyn Future<Output = O> + Send + 'a>>;
 
+pub(super) trait Cacheable: Clone + Send + Sync + 'static {}
+impl<T> Cacheable for T where T: Clone + Send + Sync + 'static {}
+
 #[derive(Clone, Debug, Default)]
 pub(crate) struct Cached<T>
 where
-    T: Clone + Send + Sync + 'static,
+    T: Cacheable,
 {
     inner: Arc<Mutex<CachedInner<T>>>,
 }
 
 impl<T> Cached<T>
 where
-    T: Clone + Send + Sync + 'static,
+    T: Cacheable,
 {
     pub fn new() -> Self {
         Self {

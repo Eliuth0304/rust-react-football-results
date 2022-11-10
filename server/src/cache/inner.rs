@@ -1,12 +1,14 @@
-use super::{CacheError, MissedCacheError};
 use chrono::{NaiveTime, Timelike};
 use std::sync::Weak;
 use tokio::sync::broadcast::Sender;
 
+use super::Cacheable;
+use super::{CacheError, MissedCacheError};
+
 #[derive(Debug)]
 pub(super) struct CachedInner<T>
 where
-    T: Clone + Send + Sync + 'static,
+    T: Cacheable,
 {
     pub last_fetched: Option<(NaiveTime, T)>,
     pub inflight: Option<Weak<Sender<Result<T, CacheError>>>>,
@@ -14,7 +16,7 @@ where
 
 impl<T> CachedInner<T>
 where
-    T: Clone + Send + Sync + 'static,
+    T: Cacheable,
 {
     pub fn get_value(&self) -> Result<T, MissedCacheError> {
         let now = chrono::offset::Utc::now().time();
@@ -35,7 +37,7 @@ where
 // T: Default is a requirement, even though Option::default is None
 impl<T> Default for CachedInner<T>
 where
-    T: Clone + Send + Sync + 'static,
+    T: Cacheable,
 {
     fn default() -> Self {
         Self {
