@@ -21,6 +21,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Main setup function. See [router::create] for details on
+/// the individual routes and Tower layers.
 async fn run_server() -> Result<(), Box<dyn Error>> {
     let addr: SocketAddr = "0.0.0.0:8000".parse()?;
     tracing::info!("Listening on http://{}", addr);
