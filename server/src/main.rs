@@ -2,7 +2,7 @@ mod cache;
 mod error;
 mod football;
 mod router;
-pub mod trace;
+mod trace;
 
 use std::{error::Error, net::SocketAddr};
 
@@ -17,6 +17,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     run_server().await?;
 
     trace::teardown();
+
     Ok(())
 }
 
