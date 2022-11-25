@@ -10,7 +10,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
 }
 
 async fn run_server() -> Result<(), Box<dyn Error>> {
-    let addr: SocketAddr = "0.0.0.0:8001".parse()?;
+    let addr = SocketAddr::from(([0, 0, 0, 0], 8001));
+    println!("listening on {}", addr);
 
     let app = Router::new().route("/", get(get_mock_data));
 
